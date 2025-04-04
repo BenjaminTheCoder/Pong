@@ -1,10 +1,11 @@
 import pygame as pg
 from dataclasses import dataclass
-
 pg.init()
 WINDOWHEIGHT = 600
 WINDOWWIDTH = 800
 win = pg.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
+FPS = 60
+clock = pg.time.Clock()
 
 pg.display.set_caption("Pong")
 
@@ -16,7 +17,8 @@ class Ball:
     vx: float
     vy: float
 
-    def edges(self) -> None:
+    def colide(self, p1: pg.Rect, p2: pg.Rect) -> None:
+            
         if self.x >= WINDOWWIDTH - self.r:
             self.x = WINDOWWIDTH - self.r
             self.vx *= -1
@@ -31,23 +33,23 @@ class Ball:
             self.y = self.r
             self.vy *= -1
 
+        
+
     def move(self) -> None:
         self.x += self.vx
-        self.y += self.vy
+        #self.y += self.vy
 
 
 #variables player 1
 vel = 5
 
-p1 = pg.Rect(5, 255, 10, 150)
+p1 = pg.Rect(5, 255, 50, 150)
 
 #variables player 2
 
-p2 = pg.Rect(785, 255, 10, 150)
+p2 = pg.Rect(745, 255, 50, 150)
 
-ball1 = Ball(400, 300, 50, 0.05, 0.05)
-ball2 = Ball(400, 300, 25, 0.05, 0.1)
-
+ball1 = Ball(400, 300, 20, 5, 5)
 
 bl = False
 br = False
@@ -59,24 +61,8 @@ bl = True
 run = True
 while run:
     ball1.move()
-    ball1.edges()
-    ball2.move()
-    ball2.edges()
-    # pg.time.delay(16)
-    # if bl == True:
-    #     ball.x -= vel
-    # if br == True:
-    #     ball.x += vel
-    # if p1.colliderect(ball):
-    #     print("Yay!")
-    #     bl = False
-    #     br = True
-    #     ball.y += vel
-    # if p2.colliderect(ball):
-    #     print("Wooh!")
-    #     bl = True
-    #     br = False
-    #     ball.y += vel
+    ball1.colide(p1, p2)
+
 
 
     for event in pg.event.get():
@@ -110,10 +96,12 @@ while run:
     if p2.top>0:
         p2.y -= vel    
 
+    print(ball1.x)
+
     win.fill((0, 0, 0))
-    #pg.draw.rect(win, (255, 255, 255), p1)
-    #pg.draw.rect(win, (255, 255, 255), p2)
-    pg.draw.circle(win, (255, 0, 0), (ball1.x, ball1.y), ball1.r)
-    pg.draw.circle(win, (0, 0, 255), (ball2.x, ball2.y), ball2.r)
+    pg.draw.rect(win, (255, 255, 255), p1)
+    pg.draw.rect(win, (255, 255, 255), p2)
+    pg.draw.circle(win, (255, 255, 255), (ball1.x, ball1.y), ball1.r)
     pg.display.update()
+    clock.tick(FPS)
 pg.quit()
