@@ -4,7 +4,7 @@ pg.init()
 WINDOWHEIGHT = 600
 WINDOWWIDTH = 800
 win = pg.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
-FPS = 60
+FPS = 15
 clock = pg.time.Clock()
 
 pg.display.set_caption("Pong")
@@ -17,39 +17,46 @@ class Ball:
     vx: float
     vy: float
 
-    def colide(self, p1: pg.Rect, p2: pg.Rect) -> None:
-            
-        if self.x >= WINDOWWIDTH - self.r:
-            self.x = WINDOWWIDTH - self.r
-            self.vx *= -1
-        elif self.x <= self.r:
-            self.x = self.r
-            self.vx *= -1
+    def colide(self) -> None:
+        pass    
+        # if self.x >= WINDOWWIDTH - self.r:
+        #     self.x = WINDOWWIDTH - self.r
+        #     self.vx *= -1
+        # elif self.x <= self.r:
+        #     self.x = self.r
+        #     self.vx *= -1
 
-        if self.y >= WINDOWHEIGHT - self.r:
-            self.y = WINDOWHEIGHT - self.r
-            self.vy *= -1
-        elif self.y <= self.r:
-            self.y = self.r
-            self.vy *= -1
+        # if self.y >= WINDOWHEIGHT - self.r:
+        #     self.y = WINDOWHEIGHT - self.r
+        #     self.vy *= -1
+        # elif self.y <= self.r:
+        #     self.y = self.r
+        #     self.vy *= -1
+
+
+    def colide_paddles(self, p1: pg.Rect, p2: pg.Rect) -> None:
+        if self.x == p1.x + p1.w:
+            self.vx *= -1
+        if self.x == p2.x:
+            self.vx *= -1
 
         
 
     def move(self) -> None:
         self.x += self.vx
-        #self.y += self.vy
+        # self.y += self.vy
 
 
 #variables player 1
 vel = 5
 
-p1 = pg.Rect(5, 255, 50, 150)
+p1 = pg.Rect(20, 255, 10, 150)
 
 #variables player 2
 
-p2 = pg.Rect(745, 255, 50, 150)
+p2 = pg.Rect(770, 255, 10, 150)
 
-ball1 = Ball(400, 300, 20, 5, 5)
+ball1 = Ball(400, 300, 15, 5, 5)
 
 bl = False
 br = False
@@ -61,7 +68,8 @@ bl = True
 run = True
 while run:
     ball1.move()
-    ball1.colide(p1, p2)
+    ball1.colide()
+    ball1.colide_paddles(p1, p2)
 
 
 
@@ -101,7 +109,7 @@ while run:
     win.fill((0, 0, 0))
     pg.draw.rect(win, (255, 255, 255), p1)
     pg.draw.rect(win, (255, 255, 255), p2)
-    pg.draw.circle(win, (255, 255, 255), (ball1.x, ball1.y), ball1.r)
+    pg.draw.circle(win, (0, 255, 255), (ball1.x, ball1.y), ball1.r)
     pg.display.update()
     clock.tick(FPS)
 pg.quit()
