@@ -4,7 +4,7 @@ pg.init()
 WINDOWHEIGHT = 600
 WINDOWWIDTH = 800
 win = pg.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
-FPS = 15
+FPS = 3
 clock = pg.time.Clock()
 
 pg.display.set_caption("Pong")
@@ -35,28 +35,28 @@ class Ball:
 
 
     def colide_paddles(self, p1: pg.Rect, p2: pg.Rect) -> None:
-        if self.x == p1.x + p1.w:
+        if self.x == p1.x + (self.r*3)+10:
             self.vx *= -1
-        if self.x == p2.x:
+        if self.x == p2.x - self.r*2:
             self.vx *= -1
 
         
 
     def move(self) -> None:
-        self.x += self.vx
+        self.x += -self.vx
         # self.y += self.vy
 
 
 #variables player 1
 vel = 5
 
-p1 = pg.Rect(20, 255, 10, 150)
+p1 = pg.Rect(20, 255, 50, 150)
 
 #variables player 2
 
 p2 = pg.Rect(770, 255, 10, 150)
 
-ball1 = Ball(400, 300, 15, 5, 5)
+ball1 = Ball(400, 300, 20, 5, 5)
 
 bl = False
 br = False
