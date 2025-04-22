@@ -4,7 +4,7 @@ pg.init()
 WINDOWHEIGHT = 600
 WINDOWWIDTH = 800
 win = pg.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
-FPS = 3
+FPS = 30
 clock = pg.time.Clock()
 
 pg.display.set_caption("Pong")
@@ -17,8 +17,7 @@ class Ball:
     vx: float
     vy: float
 
-    def colide(self) -> None:
-        pass    
+    def colide(self) -> None:   
         # if self.x >= WINDOWWIDTH - self.r:
         #     self.x = WINDOWWIDTH - self.r
         #     self.vx *= -1
@@ -26,31 +25,33 @@ class Ball:
         #     self.x = self.r
         #     self.vx *= -1
 
-        # if self.y >= WINDOWHEIGHT - self.r:
-        #     self.y = WINDOWHEIGHT - self.r
-        #     self.vy *= -1
-        # elif self.y <= self.r:
-        #     self.y = self.r
-        #     self.vy *= -1
+        if self.y >= WINDOWHEIGHT - self.r:
+            self.y = WINDOWHEIGHT - self.r
+            self.vy *= -1
+        elif self.y <= self.r:
+            self.y = self.r
+            self.vy *= -1
 
 
     def colide_paddles(self, p1: pg.Rect, p2: pg.Rect) -> None:
-        if self.x == p1.x + (self.r*3)+10:
+        if self.x == (p1.x + p1.w + self.r) and self.y > p1.y and self.y < p1.y + p1.h:
             self.vx *= -1
-        if self.x == p2.x - self.r*2:
+        if self.x == (p2.x - self.r) and self.y > p2.y and self.y < p2.y + p1.h:
             self.vx *= -1
 
         
 
     def move(self) -> None:
         self.x += -self.vx
-        # self.y += self.vy
+        self.y += -self.vy
 
 
 #variables player 1
-vel = 5
+vel = 10
 
-p1 = pg.Rect(20, 255, 50, 150)
+net = pg.Rect(398, 0, 4, 600)
+
+p1 = pg.Rect(20, 255, 10, 150)
 
 #variables player 2
 
@@ -109,7 +110,8 @@ while run:
     win.fill((0, 0, 0))
     pg.draw.rect(win, (255, 255, 255), p1)
     pg.draw.rect(win, (255, 255, 255), p2)
-    pg.draw.circle(win, (0, 255, 255), (ball1.x, ball1.y), ball1.r)
+    pg.draw.rect(win, (255, 255, 255), net)
+    pg.draw.circle(win, (255, 255, 255), (ball1.x, ball1.y), ball1.r)
     pg.display.update()
     clock.tick(FPS)
 pg.quit()
