@@ -6,7 +6,8 @@ WINDOWWIDTH = 800
 win = pg.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 FPS = 30
 clock = pg.time.Clock()
-
+p1s = 0
+p2s = 0
 pg.display.set_caption("Pong")
 
 @dataclass
@@ -45,7 +46,7 @@ class Ball:
         self.x += -self.vx
         self.y += -self.vy
 
-
+    
 #variables player 1
 vel = 10
 
@@ -59,8 +60,8 @@ p2 = pg.Rect(770, 255, 10, 150)
 
 ball1 = Ball(400, 300, 20, 5, 5)
 
-bl = False
-br = False
+font = pg.font.SysFont('Arial', 60)
+
 moveUpP1 = False
 moveDownP1 = False
 moveUpP2 = False
@@ -71,7 +72,18 @@ while run:
     ball1.move()
     ball1.colide()
     ball1.colide_paddles(p1, p2)
-
+    if ball1.x <= 0:
+        p2s += 1
+        ball1.x = 400
+        ball1.y = 300
+    if ball1.x >= 800:
+        p1s += 1
+        ball1.x = 400
+        ball1.y = 300
+    if p2s == 9:
+        run = False
+    if p1s == 9:
+        run = False
 
 
     for event in pg.event.get():
@@ -105,13 +117,16 @@ while run:
     if p2.top>0:
         p2.y -= vel    
 
-    print(ball1.x)
+    #print(ball1.x)
 
     win.fill((0, 0, 0))
     pg.draw.rect(win, (255, 255, 255), p1)
     pg.draw.rect(win, (255, 255, 255), p2)
     pg.draw.rect(win, (255, 255, 255), net)
     pg.draw.circle(win, (255, 255, 255), (ball1.x, ball1.y), ball1.r)
+            
+    score = font.render(f'{p1s}  {p2s}', True, (255, 255, 255))
+    win.blit(score, (360, 32))
     pg.display.update()
     clock.tick(FPS)
 pg.quit()
