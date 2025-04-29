@@ -7,7 +7,7 @@ win = pg.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 FPS = 30
 clock = pg.time.Clock()
 p1s = 0
-p2s = 0
+p2s = 9
 pg.display.set_caption("Pong")
 
 @dataclass
@@ -48,27 +48,33 @@ class Ball:
 
     
 #variables player 1
-vel = 10
+vel = 5
 
 net = pg.Rect(398, 0, 4, 600)
 
-p1 = pg.Rect(20, 255, 10, 150)
+p1 = pg.Rect(20, 255, 10, 100)
 
 #variables player 2
 
-p2 = pg.Rect(770, 255, 10, 150)
+p2 = pg.Rect(770, 255, 10, 100)
 
-ball1 = Ball(400, 300, 20, 5, 5)
+ball1 = Ball(400, 300, 20, 7, 7)
+
+black_screen = pg.Rect(0, 0, 800, 600)
 
 font = pg.font.SysFont('Arial', 60)
 
+replay = False
 moveUpP1 = False
 moveDownP1 = False
 moveUpP2 = False
 moveDownP2 = False
+p1win = False
+p2win = False
 bl = True
 run = True
 while run:
+    keys = pg.key.get_pressed()
     ball1.move()
     ball1.colide()
     ball1.colide_paddles(p1, p2)
@@ -76,21 +82,65 @@ while run:
         p2s += 1
         ball1.x = 400
         ball1.y = 300
+        ball1.vx *= -1
+        ball1.vy *= -1
     if ball1.x >= 800:
         p1s += 1
         ball1.x = 400
         ball1.y = 300
+        ball1.vx *= -1
+        ball1.vy *= -1
     if p2s == 9:
-        run = False
+        p2win = True
+        if keys[pg.K_SPACE]:
+            ball1.move()
+            ball1.colide()
+            ball1.colide_paddles(p1, p2)
+            p1s = 0
+            p2s = 0
+            replay = True
+            net = pg.Rect(398, 0, 4, 600)
+            p1 = pg.Rect(20, 255, 10, 100)
+            p2 = pg.Rect(770, 255, 10, 100)
+            ball1 = Ball(400, 300, 20, 7, 7)
+            moveUpP1 = False
+            moveDownP1 = False
+            moveUpP2 = False
+            moveDownP2 = False
+            p1win = False
+            p2win = False
+            bl = True
+            run = True
     if p1s == 9:
-        run = False
+        p1win = True
+        if keys[pg.K_SPACE]:
+            p1s = 0
+            p2s = 0
+            replay = True
+            net = pg.Rect(398, 0, 4, 600)
+            p1 = pg.Rect(20, 255, 10, 100)
+            p2 = pg.Rect(770, 255, 10, 100)
+            ball1 = Ball(400, 300, 20, 7, 7)
+            p1win = True
+            moveUpP1 = False
+            moveDownP1 = False
+            moveUpP2 = False
+            moveDownP2 = False
+            p1win = False
+            p2win = False
+            bl = True
+            run = True
+        replay = False
+    if p1s == 9:
+        p1win = True
 
+    if p2s == 9:
+        p2win = True
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
             run = False
 
-    keys = pg.key.get_pressed()
 
 #player 1
     if keys[pg.K_w]:
@@ -127,6 +177,20 @@ while run:
             
     score = font.render(f'{p1s}  {p2s}', True, (255, 255, 255))
     win.blit(score, (360, 32))
+    p1Win = font.render('Player 1 wins!', True, (255, 255, 255))
+    p2Win = font.render('Player 2 wins!', True, (255, 255, 255))
+    winL2 = font.render('Press "Space" to play again', True, (255, 255, 255))
+
+    if p1win == True:
+        if replay == False:
+            pg.draw.rect(win, (0, 0, 0), black_screen)
+            win.blit(p1Win, (260, 270))
+            win.blit(winL2, (100, 320))
+    if p2win == True:
+        if replay == False:
+            pg.draw.rect(win, (0, 0, 0), black_screen)
+            win.blit(p2Win, (260, 270))
+            win.blit(winL2, (100, 320))
     pg.display.update()
     clock.tick(FPS)
 pg.quit()
