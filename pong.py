@@ -7,7 +7,7 @@ win = pg.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
 FPS = 30
 clock = pg.time.Clock()
 p1s = 0
-p2s = 9
+p2s = 0
 pg.display.set_caption("Pong")
 
 @dataclass
@@ -35,10 +35,11 @@ class Ball:
 
 
     def colide_paddles(self, p1: pg.Rect, p2: pg.Rect) -> None:
-        if self.x == (p1.x + p1.w + self.r) and self.y > p1.y and self.y < p1.y + p1.h:
+        if self.x < (p1.x + p1.w + self.r) and self.y > p1.y and self.y < p1.y + p1.h:
             self.vx *= -1
-        if self.x == (p2.x - self.r) and self.y > p2.y and self.y < p2.y + p1.h:
+        if self.x > (p2.x - self.r) and self.y > p2.y and self.y < p2.y + p2.h:
             self.vx *= -1
+            print('ball hit p2')
 
         
 
@@ -48,7 +49,7 @@ class Ball:
 
     
 #variables player 1
-vel = 5
+vel = 10
 
 net = pg.Rect(398, 0, 4, 600)
 
@@ -75,6 +76,52 @@ bl = True
 run = True
 while run:
     keys = pg.key.get_pressed()
+
+#player 1
+    if keys[pg.K_w]:
+        p1.y -= vel
+        #moveUpP2 = True
+    if keys[pg.K_s]:
+        p1.y += vel
+       #moveDownP2 = True
+    if p1.bottom<WINDOWHEIGHT:
+        p1.y += vel
+    if p1.top>0:
+        p1.y -= vel    
+    if keys[pg.K_a]:
+        p1.x -= vel
+        #moveUpP2 = True
+    if keys[pg.K_d]:
+        p1.x += vel
+
+
+#player 2
+    if keys[pg.K_UP]:
+        p2.y -= vel
+        #moveUpP2 = True
+    if keys[pg.K_DOWN]:
+        p2.y += vel
+       #moveDownP2 = True
+    if p2.bottom<WINDOWHEIGHT:
+        p2.y += vel
+    if p2.top>0:
+        p2.y -= vel    
+    if keys[pg.K_LEFT]:
+        p2.x -= vel
+        #moveUpP2 = True
+    if keys[pg.K_RIGHT]:
+        p2.x += vel
+        #moveDownP2 = True
+   # if p2.bottom<WINDOWHEIGHT:
+       # p2.x += vel
+   # if p2.top>0:
+       # p2.x -= vel    
+
+    #print(ball1.x)
+
+
+
+
     ball1.move()
     ball1.colide()
     ball1.colide_paddles(p1, p2)
@@ -93,9 +140,6 @@ while run:
     if p2s == 9:
         p2win = True
         if keys[pg.K_SPACE]:
-            ball1.move()
-            ball1.colide()
-            ball1.colide_paddles(p1, p2)
             p1s = 0
             p2s = 0
             replay = True
@@ -142,32 +186,42 @@ while run:
             run = False
 
 
-#player 1
-    if keys[pg.K_w]:
-        p1.y -= vel
-        moveUpP1 = True
-    if keys[pg.K_s]:
-        p1.y += vel
-        moveDownP1 = True
-    if p1.bottom<WINDOWHEIGHT:
-        p1.y += vel
-    if p1.top>0:
-        p1.y -= vel    
+# #player 1
+#     if keys[pg.K_w]:
+#         p1.y -= vel
+#         moveUpP1 = True
+#     if keys[pg.K_s]:
+#         p1.y += vel
+#         moveDownP1 = True
+#     if p1.bottom<WINDOWHEIGHT:
+#         p1.y += vel
+#     if p1.top>0:
+#         p1.y -= vel    
 
 
-#player 2
-    if keys[pg.K_UP]:
-        p2.y -= vel
-        moveUpP2 = True
-    if keys[pg.K_DOWN]:
-        p2.y += vel
-        moveDownP2 = True
-    if p2.bottom<WINDOWHEIGHT:
-        p2.y += vel
-    if p2.top>0:
-        p2.y -= vel    
+# #player 2
+#     if keys[pg.K_UP]:
+#         p2.y -= vel
+#         #moveUpP2 = True
+#     if keys[pg.K_DOWN]:
+#         p2.y += vel
+#        #moveDownP2 = True
+#     if p2.bottom<WINDOWHEIGHT:
+#         p2.y += vel
+#     if p2.top>0:
+#         p2.y -= vel    
+#     if keys[pg.K_LEFT]:
+#         p2.x -= vel
+#         #moveUpP2 = True
+#     if keys[pg.K_RIGHT]:
+#         p2.x += vel
+#         #moveDownP2 = True
+#    # if p2.bottom<WINDOWHEIGHT:
+#        # p2.x += vel
+#    # if p2.top>0:
+#        # p2.x -= vel    
 
-    #print(ball1.x)
+#     #print(ball1.x)
 
     win.fill((0, 0, 0))
     pg.draw.rect(win, (255, 255, 255), p1)
@@ -191,6 +245,9 @@ while run:
             pg.draw.rect(win, (0, 0, 0), black_screen)
             win.blit(p2Win, (260, 270))
             win.blit(winL2, (100, 320))
+    # print('ball1', ball1)
+    # print('p2', p2)
+    # print()
     pg.display.update()
     clock.tick(FPS)
 pg.quit()
