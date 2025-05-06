@@ -35,11 +35,11 @@ class Ball:
 
 
     def colide_paddles(self, p1: pg.Rect, p2: pg.Rect) -> None:
-        if self.x < (p1.x + p1.w + self.r) and self.y > p1.y and self.y < p1.y + p1.h:
+        if self.x < (p1.x + p1.w + self.r) and self.x > (p1.x + self.r) and self.y > p1.y and self.y < p1.y + p1.h:
             self.vx *= -1
-        if self.x > (p2.x - self.r) and self.y > p2.y and self.y < p2.y + p2.h:
+        if self.x > (p2.x - self.r) and self.x < (p2.x + p2.w - self.r)  and self.y > p2.y and self.y < p2.y + p2.h:
             self.vx *= -1
-            print('ball hit p2')
+
 
         
 
@@ -224,10 +224,10 @@ while run:
 #     #print(ball1.x)
 
     win.fill((0, 0, 0))
-    pg.draw.rect(win, (255, 255, 255), p1)
-    pg.draw.rect(win, (255, 255, 255), p2)
+    pg.draw.rect(win, (100, 0, 0), p1)
+    pg.draw.rect(win, (255, 255, 0), p2)
     pg.draw.rect(win, (255, 255, 255), net)
-    pg.draw.circle(win, (255, 255, 255), (ball1.x, ball1.y), ball1.r)
+    pg.draw.circle(win, (190, 188, 188), (ball1.x, ball1.y), ball1.r)
             
     score = font.render(f'{p1s}  {p2s}', True, (255, 255, 255))
     win.blit(score, (360, 32))
