@@ -49,9 +49,23 @@ class Ball:
 
     
 #variables player 1
-vel = 10
+vel = 5
 
-net = pg.Rect(398, 0, 4, 600)
+# net1 = pg.Rect(398, 0, 4, 25)
+# net2 = pg.Rect(398, 50, 4, 25)
+# net3 = pg.Rect(398, 100, 4, 25)
+# net4 = pg.Rect(398, 150, 4, 25)
+# net5 = pg.Rect(398, 200, 4, 25)
+# net6 = pg.Rect(398, 250, 4, 25)
+# net7 = pg.Rect(398, 300, 4, 25)
+# net8 = pg.Rect(398, 350, 4, 25)
+# net9 = pg.Rect(398, 400, 4, 25)
+# net10 = pg.Rect(398, 450, 4, 25)
+# net11 = pg.Rect(398, 500, 4, 25)
+# net12 = pg.Rect(398, 550, 4, 25)
+# net13 = pg.Rect(398, 595, 4, 25)
+
+
 
 p1 = pg.Rect(20, 255, 10, 100)
 
@@ -80,42 +94,44 @@ while run:
 #player 1
     if keys[pg.K_w]:
         p1.y -= vel
-        #moveUpP2 = True
     if keys[pg.K_s]:
         p1.y += vel
-       #moveDownP2 = True
     if p1.bottom<WINDOWHEIGHT:
         p1.y += vel
     if p1.top>0:
         p1.y -= vel    
     if keys[pg.K_a]:
         p1.x -= vel
-        #moveUpP2 = True
     if keys[pg.K_d]:
         p1.x += vel
+    if p1.left<0:
+       p1.x += vel
+    if p1.right>400:
+       p1.x -= vel
 
 
 #player 2
     if keys[pg.K_UP]:
         p2.y -= vel
-        #moveUpP2 = True
     if keys[pg.K_DOWN]:
         p2.y += vel
-       #moveDownP2 = True
     if p2.bottom<WINDOWHEIGHT:
         p2.y += vel
     if p2.top>0:
         p2.y -= vel    
     if keys[pg.K_LEFT]:
         p2.x -= vel
-        #moveUpP2 = True
     if keys[pg.K_RIGHT]:
         p2.x += vel
-        #moveDownP2 = True
-   # if p2.bottom<WINDOWHEIGHT:
-       # p2.x += vel
-   # if p2.top>0:
-       # p2.x -= vel    
+        moveDownP2 = True
+    if p2.bottom<WINDOWHEIGHT:
+       p2.y += vel
+    if p2.top>0:
+       p2.y -= vel
+    if p2.left<WINDOWWIDTH:
+       p2.x += vel
+    if p2.right>419:
+       p2.x -= vel    
 
     #print(ball1.x)
 
@@ -140,6 +156,7 @@ while run:
     if p2s == 9:
         p2win = True
         if keys[pg.K_SPACE]:
+            ball1.move()
             p1s = 0
             p2s = 0
             replay = True
@@ -158,6 +175,7 @@ while run:
     if p1s == 9:
         p1win = True
         if keys[pg.K_SPACE]:
+            ball1.move()
             p1s = 0
             p2s = 0
             replay = True
@@ -185,48 +203,16 @@ while run:
         if event.type == pg.QUIT:
             run = False
 
-
-# #player 1
-#     if keys[pg.K_w]:
-#         p1.y -= vel
-#         moveUpP1 = True
-#     if keys[pg.K_s]:
-#         p1.y += vel
-#         moveDownP1 = True
-#     if p1.bottom<WINDOWHEIGHT:
-#         p1.y += vel
-#     if p1.top>0:
-#         p1.y -= vel    
-
-
-# #player 2
-#     if keys[pg.K_UP]:
-#         p2.y -= vel
-#         #moveUpP2 = True
-#     if keys[pg.K_DOWN]:
-#         p2.y += vel
-#        #moveDownP2 = True
-#     if p2.bottom<WINDOWHEIGHT:
-#         p2.y += vel
-#     if p2.top>0:
-#         p2.y -= vel    
-#     if keys[pg.K_LEFT]:
-#         p2.x -= vel
-#         #moveUpP2 = True
-#     if keys[pg.K_RIGHT]:
-#         p2.x += vel
-#         #moveDownP2 = True
-#    # if p2.bottom<WINDOWHEIGHT:
-#        # p2.x += vel
-#    # if p2.top>0:
-#        # p2.x -= vel    
-
-#     #print(ball1.x)
-
     win.fill((0, 0, 0))
     pg.draw.rect(win, (100, 0, 0), p1)
     pg.draw.rect(win, (255, 255, 0), p2)
-    pg.draw.rect(win, (255, 255, 255), net)
+    y = 0
+    for n in range(1, 14):
+        pg.draw.rect(win, (255, 255, 255), (398, y, 4, 25))
+        y += 49
+
+
+
     pg.draw.circle(win, (190, 188, 188), (ball1.x, ball1.y), ball1.r)
             
     score = font.render(f'{p1s}  {p2s}', True, (255, 255, 255))
@@ -240,11 +226,15 @@ while run:
             pg.draw.rect(win, (0, 0, 0), black_screen)
             win.blit(p1Win, (260, 270))
             win.blit(winL2, (100, 320))
+            ball1.vx = 0
+            ball1.vy = 0
     if p2win == True:
         if replay == False:
             pg.draw.rect(win, (0, 0, 0), black_screen)
             win.blit(p2Win, (260, 270))
             win.blit(winL2, (100, 320))
+            ball1.vx = 0
+            ball1.vy = 0
     # print('ball1', ball1)
     # print('p2', p2)
     # print()
