@@ -89,7 +89,7 @@ p2win = False
 bl = True
 run = True
 while run:
-    keys = pg.key.get_pressed()
+    keys =pg.key.get_pressed()
 
 #player 1
     if keys[pg.K_w]:
