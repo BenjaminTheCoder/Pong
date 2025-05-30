@@ -1,51 +1,15 @@
 import pygame as pg
 from dataclasses import dataclass
+import pong_logic as pl
+
 pg.init()
-WINDOWHEIGHT = 600
-WINDOWWIDTH = 800
-win = pg.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
-FPS = 30
+
+win = pg.display.set_mode((pl.WINDOWWIDTH, pl.WINDOWHEIGHT))
 clock = pg.time.Clock()
 p1s = 0
 p2s = 0
 pg.display.set_caption("Pong")
 
-@dataclass
-class Ball:
-    x: float
-    y: float
-    r: float
-    vx: float
-    vy: float
-
-    def colide(self) -> None:   
-        # if self.x >= WINDOWWIDTH - self.r:
-        #     self.x = WINDOWWIDTH - self.r
-        #     self.vx *= -1
-        # elif self.x <= self.r:
-        #     self.x = self.r
-        #     self.vx *= -1
-
-        if self.y >= WINDOWHEIGHT - self.r:
-            self.y = WINDOWHEIGHT - self.r
-            self.vy *= -1
-        elif self.y <= self.r:
-            self.y = self.r
-            self.vy *= -1
-
-
-    def colide_paddles(self, p1: pg.Rect, p2: pg.Rect) -> None:
-        if self.x < (p1.x + p1.w + self.r) and self.x > (p1.x + self.r) and self.y > p1.y and self.y < p1.y + p1.h:
-            self.vx *= -1
-        if self.x > (p2.x - self.r) and self.x < (p2.x + p2.w - self.r)  and self.y > p2.y and self.y < p2.y + p2.h:
-            self.vx *= -1
-
-
-        
-
-    def move(self) -> None:
-        self.x += -self.vx
-        self.y += -self.vy
 
     
 #variables player 1
@@ -67,13 +31,13 @@ vel = 5
 
 
 
-p1 = pg.Rect(20, 255, 10, 100)
+p1 = pl.Rect(20, 255, 10, 100)
 
 #variables player 2
 
-p2 = pg.Rect(770, 255, 10, 100)
+p2 = pl.Rect(770, 255, 10, 100)
 
-ball1 = Ball(400, 300, 20, 7, 7)
+ball1 = pl.Ball(400, 300, 20, 7, 7)
 
 black_screen = pg.Rect(0, 0, 800, 600)
 
@@ -90,48 +54,43 @@ bl = True
 run = True
 while run:
     keys =pg.key.get_pressed()
+    
 
-#player 1
     if keys[pg.K_w]:
         p1.y -= vel
     if keys[pg.K_s]:
         p1.y += vel
-    if p1.bottom<WINDOWHEIGHT:
+    if p1.y+p1.h<=pl.WINDOWHEIGHT:
         p1.y += vel
-    if p1.top>0:
+    if p1.y>0:
         p1.y -= vel    
     if keys[pg.K_a]:
         p1.x -= vel
     if keys[pg.K_d]:
         p1.x += vel
-    if p1.left<0:
+    if p1.x<0:
        p1.x += vel
-    if p1.right>400:
+    if p1.x+p1.w>=400:
        p1.x -= vel
-
-
-#player 2
+    # player 2
     if keys[pg.K_UP]:
         p2.y -= vel
     if keys[pg.K_DOWN]:
         p2.y += vel
-    if p2.bottom<WINDOWHEIGHT:
+    if p2.y+p2.h<=pl.WINDOWHEIGHT:
         p2.y += vel
-    if p2.top>0:
+    if p2.y>=0:
         p2.y -= vel    
     if keys[pg.K_LEFT]:
         p2.x -= vel
     if keys[pg.K_RIGHT]:
         p2.x += vel
-        moveDownP2 = True
-    if p2.bottom<WINDOWHEIGHT:
-       p2.y += vel
-    if p2.top>0:
-       p2.y -= vel
-    if p2.left<WINDOWWIDTH:
+    if p2.x<0:
        p2.x += vel
-    if p2.right>419:
-       p2.x -= vel    
+    if p2.x<pl.WINDOWWIDTH:
+       p2.x += vel
+    if p2.x+p2.w>419:
+       p2.x -= vel  
 
     #print(ball1.x)
 
@@ -160,10 +119,10 @@ while run:
             p1s = 0
             p2s = 0
             replay = True
-            net = pg.Rect(398, 0, 4, 600)
-            p1 = pg.Rect(20, 255, 10, 100)
-            p2 = pg.Rect(770, 255, 10, 100)
-            ball1 = Ball(400, 300, 20, 7, 7)
+            net = pl.Rect(398, 0, 4, 600)
+            p1 = pl.Rect(20, 255, 10, 100)
+            p2 = pl.Rect(770, 255, 10, 100)
+            ball1 = pl.Ball(400, 300, 20, 7, 7)
             moveUpP1 = False
             moveDownP1 = False
             moveUpP2 = False
@@ -179,10 +138,10 @@ while run:
             p1s = 0
             p2s = 0
             replay = True
-            net = pg.Rect(398, 0, 4, 600)
-            p1 = pg.Rect(20, 255, 10, 100)
-            p2 = pg.Rect(770, 255, 10, 100)
-            ball1 = Ball(400, 300, 20, 7, 7)
+            net = pl.Rect(398, 0, 4, 600)
+            p1 = pl.Rect(20, 255, 10, 100)
+            p2 = pl.Rect(770, 255, 10, 100)
+            ball1 = pl.Ball(400, 300, 20, 7, 7)
             p1win = True
             moveUpP1 = False
             moveDownP1 = False
@@ -204,8 +163,8 @@ while run:
             run = False
 
     win.fill((0, 0, 0))
-    pg.draw.rect(win, (100, 0, 0), p1)
-    pg.draw.rect(win, (255, 255, 0), p2)
+    pg.draw.rect(win, (100, 0, 0), (p1.x, p1.y, p1.w, p1.h))
+    pg.draw.rect(win, (255, 255, 0), (p2.x, p2.y, p2.w, p2.h))
     y = 0
     for n in range(1, 14):
         pg.draw.rect(win, (255, 255, 255), (398, y, 4, 25))
@@ -239,5 +198,5 @@ while run:
     # print('p2', p2)
     # print()
     pg.display.update()
-    clock.tick(FPS)
+    clock.tick(pl.FPS)
 pg.quit()
