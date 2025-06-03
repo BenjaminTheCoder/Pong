@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 WINDOWWIDTH = 800
 WINDOWHEIGHT = 600
@@ -20,8 +20,6 @@ class Ball:
     vy: int
 
     def colide(self) -> None:   
-       
-
         if self.y >= WINDOWHEIGHT - self.r:
             self.y = WINDOWHEIGHT - self.r
             self.vy *= -1
@@ -37,8 +35,19 @@ class Ball:
             self.vx *= -1
 
 
-        
-
     def move(self) -> None:
         self.x += -self.vx
         self.y += -self.vy
+
+@dataclass
+class GameVariables: 
+    replay: bool = False
+    p1win: bool = False
+    p2win: bool = False
+    run: bool = True
+    vel: int = 5
+    p1s: int = 0
+    p2s: int = 0
+    p1: Rect = field(default_factory=lambda: Rect(20, 255, 10, 100))
+    p2: Rect = field(default_factory=lambda: Rect(770, 255, 10, 100))
+    ball1: Ball = field(default_factory=lambda:Ball(400, 300, 20, 7, 7))
