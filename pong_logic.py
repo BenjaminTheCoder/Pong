@@ -37,7 +37,7 @@ class Ball:
 
     def move(self) -> None:
         self.x += -self.vx
-        self.y += -self.vy
+        #self.y += -self.vy
 
 @dataclass
 class GameVariables: 
@@ -50,4 +50,4 @@ class GameVariables:
     p2s: int = 0
     p1: Rect = field(default_factory=lambda: Rect(20, 255, 10, 100))
     p2: Rect = field(default_factory=lambda: Rect(770, 255, 10, 100))
-    ball1: Ball = field(default_factory=lambda:Ball(400, 300, 20, 7, 7))
+    ball: Ball = field(default_factory=lambda:Ball(400, 300, 20, 7, 7))
