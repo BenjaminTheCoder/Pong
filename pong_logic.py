@@ -37,7 +37,7 @@ class Ball:
 
     def move(self) -> None:
         self.x += -self.vx
-        #self.y += -self.vy
+        self.y += -self.vy
 
 @dataclass
 class GameVariables: 
@@ -51,3 +51,31 @@ class GameVariables:
     p1: Rect = field(default_factory=lambda: Rect(20, 255, 10, 100))
     p2: Rect = field(default_factory=lambda: Rect(770, 255, 10, 100))
     ball: Ball = field(default_factory=lambda:Ball(400, 300, 20, 7, 7))
+
+    def prewin_screen(self) -> None:
+        if self.ball.x <= 0:
+            self.p2s += 1
+            self.reset_ball()
+        if self.ball.x >= 800:
+            self.p1s += 1
+            self.reset_ball()
+
+    def reset_ball(self) -> None:
+        self.ball.x = 400
+        self.ball.y = 300
+        self.ball.vx *= -1
+        self.ball.vy *= -1
+    
+    def reset(self) -> None:
+        self.ball.move()
+        self.p1s = 0
+        self.p2s = 0
+        self.replay = False
+        self.p1 = Rect(20, 255, 10, 100)
+        self.p2 = Rect(770, 255, 10, 100)
+        self.ball = Ball(400, 300, 20, 7, 7)
+        self.p1win = False
+        self.p2win = False
+        bl = True
+        run = True
+        self.replay = False

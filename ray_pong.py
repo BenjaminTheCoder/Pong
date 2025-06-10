@@ -23,54 +23,45 @@ while not pr.window_should_close():
     if gv.p2s == 9:
         gv.p2win = True
         if pr.is_key_down(pr.KeyboardKey.KEY_SPACE):
-            gv.ball.move()
-            gv.p1s = 0
-            gv.p2s = 0
-            gv.replay = False
-            gv.p1 = pl.Rect(20, 255, 10, 100)
-            gv.p2 = pl.Rect(770, 255, 10, 100)
-            gv.ball = pl.Ball(400, 300, 20, 7, 7)
-            moveUpP1 = False
-            moveDownP1 = False
-            moveUpP2 = False
-            moveDownP2 = False
-            gv.p1win = False
-            gv.p2win = False
-            bl = True
-            run = True
+            gv.reset
+            # gv.ball.move()
+            # gv.p1s = 0
+            # gv.p2s = 0
+            # gv.replay = False
+            # gv.p1 = pl.Rect(20, 255, 10, 100)
+            # gv.p2 = pl.Rect(770, 255, 10, 100)
+            # gv.ball = pl.Ball(400, 300, 20, 7, 7)
+            # moveUpP1 = False
+            # moveDownP1 = False
+            # moveUpP2 = False
+            # moveDownP2 = False
+            # gv.p1win = False
+            # gv.p2win = False
+            # bl = True
+            # run = True
     if gv.p1s == 9:
         gv.p1win = True
         if pr.is_key_down(pr.KeyboardKey.KEY_SPACE):
-            gv.ball.move()
-            gv.p1s = 0
-            gv.p2s = 0
-            gv.replay = False
-            gv.p1 = pl.Rect(20, 255, 10, 100)
-            gv.p2 = pl.Rect(770, 255, 10, 100)
-            gv.ball = pl.Ball(400, 300, 20, 7, 7)
-            moveUpP1 = False
-            moveDownP1 = False
-            moveUpP2 = False
-            moveDownP2 = False
-            gv.p1win = False
-            gv.p2win = False
-            bl = True
-            run = True
-            gv.replay = False
+            gv.reset()
+            # gv.ball.move()
+            # gv.p1s = 0
+            # gv.p2s = 0
+            # gv.replay = False
+            # gv.p1 = pl.Rect(20, 255, 10, 100)
+            # gv.p2 = pl.Rect(770, 255, 10, 100)
+            # gv.ball = pl.Ball(400, 300, 20, 7, 7)
+            # moveUpP1 = False
+            # moveDownP1 = False
+            # moveUpP2 = False
+            # moveDownP2 = False
+            # gv.p1win = False
+            # gv.p2win = False
+            # bl = True
+            # run = True
+            # gv.replay = False
 
-    # Same
-    if gv.ball.x <= 0:
-        gv.p2s += 1
-        gv.ball.x = 400
-        gv.ball.y = 300
-        gv.ball.vx *= -1
-        gv.ball.vy *= -1
-    if gv.ball.x >= 800:
-        gv.p1s += 1
-        gv.ball.x = 400
-        gv.ball.y = 300
-        gv.ball.vx *= -1
-        gv.ball.vy *= -1
+    gv.prewin_screen()
+
 
     #player 1
     if pr.is_key_down(pr.KeyboardKey.KEY_F):
@@ -127,13 +118,8 @@ while not pr.window_should_close():
     pr.clear_background(pr.SKYBLUE)
     pr.draw_text(f'{gv.p1s}  {gv.p2s}', 350, 32, 60, pr.WHITE)
 
-
-
-    # These two blocks are the same
-
     win_screen(gv.p1win, 1)
     win_screen(gv.p2win, 2)
 
-    
     pr.end_drawing()
 pr.close_window()

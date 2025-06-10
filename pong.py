@@ -118,17 +118,17 @@ while gv.run:
 
 
     # 3. Draw the world
-    win.fill((0, 0, 0))
-    pg.draw.rect(win, (100, 0, 0), (gv.p1.x, gv.p1.y, gv.p1.w, gv.p1.h))
-    pg.draw.rect(win, (255, 255, 0), (gv.p2.x, gv.p2.y, gv.p2.w, gv.p2.h))
+    win.fill((135, 206, 235))
+    pg.draw.rect(win, (255, 255, 255), (gv.p1.x, gv.p1.y, gv.p1.w, gv.p1.h))
+    pg.draw.rect(win, (255, 255, 255), (gv.p2.x, gv.p2.y, gv.p2.w, gv.p2.h))
     y = 0
     for n in range(1, 14):
-        pg.draw.rect(win, (255, 255, 255), (398, y, 4, 25))
+        pg.draw.rect(win, (150, 85, 85), (398, y, 4, 25))
         y += 49
 
 
 
-    pg.draw.circle(win, (190, 188, 188), (gv.ball.x, gv.ball.y), gv.ball.r)
+    pg.draw.circle(win, (255, 201, 34), (gv.ball.x, gv.ball.y), gv.ball.r)
             
     score = font.render(f'{gv.p1s}  {gv.p2s}', True, (255, 255, 255))
     win.blit(score, (360, 32))
