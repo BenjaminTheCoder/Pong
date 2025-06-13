@@ -15,57 +15,15 @@ def win_screen(pwin: bool, pnum: int) -> None:
             gv.ball.vx = 0
             gv.ball.vy = 0
 
+def space_press() -> None:
+    if pr.is_key_down(pr.KeyboardKey.KEY_SPACE):
+        gv.reset_variables()
+
 while not pr.window_should_close():
 
     # 1. Handle user input (update the player)
-    
-    # Same
-    if gv.p2s == 9:
-        gv.p2win = True
-        if pr.is_key_down(pr.KeyboardKey.KEY_SPACE):
-            gv.reset
-            # gv.ball.move()
-            # gv.p1s = 0
-            # gv.p2s = 0
-            # gv.replay = False
-            # gv.p1 = pl.Rect(20, 255, 10, 100)
-            # gv.p2 = pl.Rect(770, 255, 10, 100)
-            # gv.ball = pl.Ball(400, 300, 20, 7, 7)
-            # moveUpP1 = False
-            # moveDownP1 = False
-            # moveUpP2 = False
-            # moveDownP2 = False
-            # gv.p1win = False
-            # gv.p2win = False
-            # bl = True
-            # run = True
-    if gv.p1s == 9:
-        gv.p1win = True
-        if pr.is_key_down(pr.KeyboardKey.KEY_SPACE):
-            gv.reset()
-            # gv.ball.move()
-            # gv.p1s = 0
-            # gv.p2s = 0
-            # gv.replay = False
-            # gv.p1 = pl.Rect(20, 255, 10, 100)
-            # gv.p2 = pl.Rect(770, 255, 10, 100)
-            # gv.ball = pl.Ball(400, 300, 20, 7, 7)
-            # moveUpP1 = False
-            # moveDownP1 = False
-            # moveUpP2 = False
-            # moveDownP2 = False
-            # gv.p1win = False
-            # gv.p2win = False
-            # bl = True
-            # run = True
-            # gv.replay = False
 
-    gv.prewin_screen()
-
-
-    #player 1
-    if pr.is_key_down(pr.KeyboardKey.KEY_F):
-        pr.toggle_fullscreen()
+    # Player 1 movement
     if pr.is_key_down(pr.KeyboardKey.KEY_W):
         gv.p1.y -= gv.vel
     if pr.is_key_down(pr.KeyboardKey.KEY_S):
@@ -82,7 +40,8 @@ while not pr.window_should_close():
        gv.p1.x += gv.vel
     if gv.p1.x + gv.p1.w>=400:
        gv.p1.x -= gv.vel
-    # player 2
+
+    # Player 2 movement
     if pr.is_key_down(pr.KeyboardKey.KEY_UP):
         gv.p2.y -= gv.vel
     if pr.is_key_down(pr.KeyboardKey.KEY_DOWN):
@@ -100,18 +59,39 @@ while not pr.window_should_close():
     if gv.p2.x < pl.WINDOWWIDTH:
        gv.p2.x += gv.vel
     if gv.p2.x + gv.p2.w > 419:
-       gv.p2.x -= gv.vel  
+       gv.p2.x -= gv.vel
+
+
+    if gv.p2s == 9:
+        gv.p2win = True
+        space_press()
+            
+    if gv.p1s == 9:
+        gv.p1win = True
+        space_press()
+
+    gv.prewin_screen()
+
+    # Toggle fullscreen
+    if pr.is_key_down(pr.KeyboardKey.KEY_F):
+        pr.toggle_fullscreen()
 
     # 2. Update the world (everything other than the player)
     gv.ball.move()
     gv.ball.colide()
     gv.ball.colide_paddles(gv.p1, gv.p2)
+
     # 3. Draw the world
+
     pr.begin_drawing()
+    
+    # Draw the dashed line
     y = 0
     for n in range(1, 14):
         pr.draw_rectangle(398, y, 4, 25, pr.BROWN)
         y += 49
+
+    # Draw paddles, ball, and score
     pr.draw_circle_gradient( gv.ball.x, gv.ball.y, gv.ball.r, pr.YELLOW, pr.ORANGE)
     pr.draw_rectangle_gradient_h(int(gv.p1.x), int(gv.p1.y), int(gv.p1.w), int(gv.p1.h), pr.WHITE, pr.GRAY)
     pr.draw_rectangle_gradient_h(int(gv.p2.x), int(gv.p2.y), int(gv.p2.w), int(gv.p2.h), pr.WHITE, pr.GRAY)
