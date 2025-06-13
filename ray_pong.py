@@ -16,8 +16,9 @@ def win_screen(pwin: bool, pnum: int) -> None:
             gv.ball.vy = 0
 
 def space_press() -> None:
+    global gv
     if pr.is_key_down(pr.KeyboardKey.KEY_SPACE):
-        gv.reset_variables()
+        gv = pl.GameVariables()
 
 while not pr.window_should_close():
 
@@ -84,7 +85,7 @@ while not pr.window_should_close():
     # 3. Draw the world
 
     pr.begin_drawing()
-    
+
     # Draw the dashed line
     y = 0
     for n in range(1, 14):

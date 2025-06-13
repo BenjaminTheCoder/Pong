@@ -66,14 +66,3 @@ class GameVariables:
         self.ball.vx *= -1
         self.ball.vy *= -1
     
-    def reset_variables(self) -> None:
-        self.ball.move()
-        self.p1s = 0
-        self.p2s = 0
-        self.replay = False
-        self.p1 = Rect(20, 255, 10, 100)
-        self.p2 = Rect(770, 255, 10, 100)
-        self.ball = Ball(400, 300, 20, 7, 7)
-        self.p1win = False
-        self.p2win = False
-        self.replay = False

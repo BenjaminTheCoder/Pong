@@ -19,8 +19,9 @@ def draw_win_screen(pWin: pg.Surface) -> None:
         gv.ball.vy = 0
 
 def space_press(keys: pg.key.ScancodeWrapper) -> None:
+    global gv
     if keys[pg.K_SPACE]:
-        gv.reset_variables()
+        gv = pl.GameVariables()
 
 while gv.run:
 
