@@ -4,6 +4,7 @@ import pong_logic as pl
 pg.init()
 
 win = pg.display.set_mode((pl.WINDOWWIDTH, pl.WINDOWHEIGHT))
+pg.display.set_caption("Pygame Pong")
 clock = pg.time.Clock()
 
 font = pg.font.SysFont('Arial', 60)

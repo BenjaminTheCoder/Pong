@@ -1,7 +1,7 @@
 import pyray as pr
 import pong_logic as pl
 
-pr.init_window(pl.WINDOWWIDTH, pl.WINDOWHEIGHT, "Pong")
+pr.init_window(pl.WINDOWWIDTH, pl.WINDOWHEIGHT, "Raylib Pong")
 pr.set_target_fps(pl.FPS)
 
 gv = pl.GameVariables()
